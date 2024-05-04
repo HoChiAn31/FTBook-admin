@@ -1,0 +1,23 @@
+const config = {
+    home: '/',
+    chart: '/chart',
+    book: '/book',
+    bookAdd: '/bookAdd',
+    bookEdit: '/bookEdit',
+    bookCategory: '/bookCategory',
+    bookCategoryAdd: '/bookCategoryAdd',
+    bookCategoryEdit: '/bookCategoryEdit',
+    bookCategoryDetail: '/bookCategoryDetail',
+    bookCategoryDetailAdd: '/bookCategoryDetailAdd',
+    bookCategoryDetailEdit: '/bookCategoryDetailEdit',
+    publishCategory: '/publishCategory',
+    publishCategoryAdd: '/publishCategoryAdd',
+    publishCategoryEdit: '/publishCategoryEdit',
+    suppliersCategory: '/suppliersCategory',
+    suppliersCategoryAdd: '/suppliersCategoryAdd',
+    suppliersCategoryEdit: '/suppliersCategoryEdit',
+    messenger: '/messenger',
+    theOrder: '/theOrder',
+    user: '/user',
+};
+export default config;
