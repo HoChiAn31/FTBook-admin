@@ -25,7 +25,7 @@ function BookCategoryDetailPage() {
 
     const [dataCategoryAll, setDataCategoryAll] = useState([]);
     const [dataCategoryDetail, setCategoryDetail] = useState([]);
-    
+
     const [deleteCategoryId, setDeleteCategoryId] = useState();
     const [isSuccess, setIsSuccess] = useState(false);
     const [nameCategory, setNameCategory] = useState();
@@ -55,10 +55,11 @@ function BookCategoryDetailPage() {
     }, []);
     console.log('dataCategoryAll', dataCategoryAll);
     console.log('dataCategoryDetail', dataCategoryDetail);
-    
-    // useEffect(() => {
 
-    // }, [dataCategoryAll,dataCategoryDetail]);
+    const getCategoryNameById = (categoryId) => {
+        const category = dataCategoryAll.find((category) => category._id === categoryId);
+        return category ? category.name : 'Unknown Category';
+    };
     const handleDelete = () => {
         axios
             .delete(`http://localhost:5000/categoryAll/${deleteCategoryId}`)
@@ -79,7 +80,7 @@ function BookCategoryDetailPage() {
         <div className="p-8">
             <div className="flex items-center justify-between">
                 <h3 className="font-bold text-4xl">Danh mục chi tiết</h3>
-                <Link to="/bookCategoryAdd" className=" hover:text-white">
+                <Link to="/bookCategoryDetailAdd" className=" hover:text-white">
                     <Button primary>Thêm danh mục sách</Button>
                 </Link>
             </div>
@@ -99,14 +100,14 @@ function BookCategoryDetailPage() {
                             <TableRow key={book._id}>
                                 <TableCell>{book.name}</TableCell>
 
-                                <TableCell>{book.categoryAll_Id}</TableCell>
+                                <TableCell>{getCategoryNameById(book.categoryAll_Id)}</TableCell>
                                 <TableCell textAlign="center">
                                     <div className="flex items-center justify-center gap-3">
                                         <Popup
                                             position="top center"
                                             content="Chi tiết"
                                             trigger={
-                                                <Link to={'/bookCategoryEdit'} state={{ dataDetail: book }}>
+                                                <Link to={'/bookCategoryDetailEdit'} state={{ dataDetail: book }}>
                                                     <FontAwesomeIcon icon={faEye} />
                                                 </Link>
                                             }

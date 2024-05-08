@@ -11,6 +11,7 @@ function FormFieldComponent({
     value,
     className,
     error,
+    disabled,
 }) {
     return (
         <>
@@ -25,6 +26,7 @@ function FormFieldComponent({
                         fluid
                         error={error}
                         onBlur={onBlur}
+                        disabled={disabled}
                     />
                     {error ? (
                         <>
@@ -42,6 +44,7 @@ function FormFieldComponent({
                         className={className}
                         error={error}
                         onBlur={onBlur}
+                        disabled={disabled}
                     />
                     {error ? (
                         <>
