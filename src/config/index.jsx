@@ -19,5 +19,7 @@ const config = {
     messenger: '/messenger',
     theOrder: '/theOrder',
     user: '/user',
+    userEdit: '/userEdit',
+    userAdd: '/userAdd',
 };
 export default config;

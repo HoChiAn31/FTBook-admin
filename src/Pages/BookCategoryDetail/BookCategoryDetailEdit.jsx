@@ -12,22 +12,49 @@ function BookCategoryDetailEditPage() {
     console.log(dataDetail);
     const [valueName, setValueName] = useState(dataDetail.name);
     const [valueDescription, setValueDescription] = useState(dataDetail.description);
-    const navigate = useNavigate();
+    const [valueCategoryAll, setValueCategoryAll] = useState(dataDetail.categoryAll_Id);
 
+    const [dataCategoryAll, setDataCategoryAll] = useState([]);
+
+    const navigate = useNavigate();
+    const loadCategoryAll = () => {
+        axios
+            .get('http://localhost:5000/categoryAll')
+            .then((res) => {
+                setDataCategoryAll(res.data);
+            })
+            .catch((error) => {
+                console.error('Error fetching data:', error);
+            });
+    };
+    useEffect(() => {
+        loadCategoryAll();
+    }, []);
+    const convertToOptions = (data) => {
+        return data.map((item) => ({
+            key: item._id,
+            value: item._id,
+            text: item.name,
+        }));
+    };
     const handleValueDescription = (e) => {
         setValueDescription(e.target.value);
     };
     const handleValueName = (e) => {
         setValueName(e.target.value);
     };
+    const handleChangeCategory = (e, { value }) => {
+        setValueCategoryAll(value);
+    };
     const handleUpdate = () => {
         axios
-            .patch(`http://localhost:5000/categoryAll/${dataDetail._id}`, {
+            .patch(`http://localhost:5000/categoryDetail/${dataDetail._id}`, {
                 name: valueName,
                 description: valueDescription,
+                categoryAll_Id: valueCategoryAll,
             })
             .then((response) => {
-                navigate('/BookCategory');
+                navigate('/bookCategoryDetail');
             })
             .catch((error) => {
                 console.error('Error posting data:', error);
@@ -55,7 +82,15 @@ function BookCategoryDetailEditPage() {
                         value={valueName}
                         onChange={handleValueName}
                     />
-
+                    <FormFieldComponent
+                        title="Danh mục"
+                        placeholder="Chọn danh mục"
+                        required
+                        select
+                        value={valueCategoryAll}
+                        onChange={handleChangeCategory}
+                        options={convertToOptions(dataCategoryAll)}
+                    />
                     <FormField
                         control={TextArea}
                         label="Mô tả sản phẩm:"

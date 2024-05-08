@@ -85,7 +85,7 @@ function BookPage() {
     const handleOpen = () => setOpen(true);
     // const handleClose = () => setOpen(false);
     const [deleteBookId, setDeleteBookId] = useState();
-    const [dataBooks, setDateBooks] = useState();
+    const [dataBooks, setDataBooks] = useState();
     const [isLoading, setIsLoading] = useState(false);
     const [isSuccess, setIsSuccess] = useState(false);
 
@@ -93,7 +93,7 @@ function BookPage() {
         axios
             .get('http://localhost:5000/product')
             .then((response) => {
-                setDateBooks(response.data);
+                setDataBooks(response.data);
                 setIsLoading(true);
             })
             .catch((error) => {
