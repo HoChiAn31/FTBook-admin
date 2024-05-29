@@ -81,14 +81,7 @@ function TheOrderPage() {
 
     // Tổng số trang
     const totalPages = Math.ceil(dataCategoryAll.length / itemsPerPage);
-    // if (currentPage === totalPages && currentData.length < itemsPerPage) {
-    //     // Tính toán số ô trống cần hiển thị
-    //     const emptyCells = itemsPerPage - currentData.length;
-    //     // Tạo mảng chứa các ô trống
-    //     const emptyCellsArray = Array.from({ length: emptyCells }, () => ({ empty: true }));
-    //     // Kết hợp dữ liệu hiện tại với các ô trống
-    //     currentData = [...currentData, ...emptyCellsArray];
-    // }
+
     // Hàm xử lý khi chuyển trang
     const handlePaginationChange = (e, { activePage }) => {
         // Đảm bảo activePage không vượt quá totalPages
