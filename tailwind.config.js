@@ -7,7 +7,7 @@ module.exports = {
                 red: '#ff0000',
             },
             animation: {
-                fadeInOut: 'fadeInOut 3s ease-in-out forwards', // Thiết lập duration là 3 giây và sử dụng ease-in-out easing
+                fadeInOut: 'fadeInOut 3s ease-in-out forwards',
             },
             keyframes: {
                 fadeInOut: {
