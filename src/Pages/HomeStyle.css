@@ -1,0 +1,26 @@
+.custom-chart svg {
+    width: 100%;
+    height: 100%;
+}
+
+.custom-chart .chart-axis path,
+.custom-chart .chart-axis line {
+    stroke: #ccc;
+}
+
+.custom-chart .chart-axis text {
+    fill: #333;
+}
+
+.custom-chart .chart-axis text:hover {
+    fill: #21ba45;
+}
+
+.custom-chart .chart-dataset path.line {
+    stroke: #21ba45;
+    stroke-width: 2;
+}
+
+.custom-chart .chart-dataset path.region {
+    fill: rgba(33, 186, 69, 0.2);
+}

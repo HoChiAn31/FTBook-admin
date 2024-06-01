@@ -31,22 +31,25 @@ function SideBar() {
                     iconShape="square"
                     renderMenuItemStyles={({ active }) => myMenuItemStyles(active)}
                 >
+                    <MenuItem className="font-bold text-4xl text-blue">
+                        FT-<span className=" text-orange">BOOK</span>
+                    </MenuItem>
                     <MenuItem icon={<FontAwesomeIcon icon={faHouse} />} active component={<Link to="/" />}>
                         Trang chủ
                     </MenuItem>
-                    <MenuItem icon={<FontAwesomeIcon icon={faComment} />} component={<Link to="/messenger" />}>
+                    {/* <MenuItem icon={<FontAwesomeIcon icon={faComment} />} component={<Link to="/messenger" />}>
                         Chat
-                    </MenuItem>
+                    </MenuItem> */}
                     <MenuItem icon={<FontAwesomeIcon icon={faBook} />} component={<Link to="/book" />}>
-                        Sách
+                        Quản lý Sách
                     </MenuItem>
                     <MenuItem icon={<FontAwesomeIcon icon={faChartLine} />} component={<Link to="/chart" />}>
-                        Thống kê
+                        Thống kê cửa hàng
                     </MenuItem>
                     <MenuItem icon={<FontAwesomeIcon icon={faClipboardList} />} component={<Link to="/theOrder" />}>
                         Đơn đặt hàng
                     </MenuItem>
-                    <SubMenu label="Danh mục" icon={<FontAwesomeIcon icon={faTableCellsLarge} />}>
+                    <SubMenu label="Danh mục quản lý" icon={<FontAwesomeIcon icon={faTableCellsLarge} />}>
                         <MenuItem icon={<FontAwesomeIcon icon={faBook} />} component={<Link to="/bookCategory" />}>
                             Loại sách
                         </MenuItem>
@@ -70,7 +73,7 @@ function SideBar() {
                         </MenuItem>
                     </SubMenu>
                     <MenuItem icon={<FontAwesomeIcon icon={faUser} />} component={<Link to="/user" />}>
-                        Người dùng
+                        Quản lý người dùng
                     </MenuItem>
                 </Menu>
             </Sidebar>
