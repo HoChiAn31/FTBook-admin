@@ -10,6 +10,8 @@ import BookCategoryDetailEditPage from '../Pages/BookCategoryDetail/BookCategory
 import ChartPage from '../Pages/Chart';
 import HomePage from '../Pages/Home';
 import MessengerPage from '../Pages/Messenger';
+import ThePaymentPage from '../Pages/Payment/Payment';
+import PaymentDetailPage from '../Pages/Payment/PaymentDetail';
 import PublishCategoryPage from '../Pages/PublishCategory/PublishCategory';
 import PublishCategoryPageAdd from '../Pages/PublishCategory/PublishCategoryAdd';
 import PublishCategoryPageEdit from '../Pages/PublishCategory/PublishCategoryEdit';
@@ -18,7 +20,6 @@ import SuppliersCategoryPage from '../Pages/SuppliersCategory/SuppliersCategory'
 import SuppliersCategoryPageAdd from '../Pages/SuppliersCategory/SuppliersCategoryAdd';
 import SuppliersCategoryPageEdit from '../Pages/SuppliersCategory/SuppliersCategoryEdit';
 
-import TheOrderPage from '../Pages/TheOrder';
 import UserPage from '../Pages/User/User';
 import UserAddPage from '../Pages/User/UserAdd';
 import UserEditPage from '../Pages/User/UserEdit';
@@ -43,7 +44,8 @@ const publicRoutes = [
     { path: config.suppliersCategory, component: SuppliersCategoryPage },
     { path: config.suppliersCategoryAdd, component: SuppliersCategoryPageAdd },
     { path: config.suppliersCategoryEdit, component: SuppliersCategoryPageEdit },
-    { path: config.theOrder, component: TheOrderPage },
+    { path: config.theOrder, component: ThePaymentPage },
+    { path: config.theOrderDetail, component: PaymentDetailPage },
     { path: config.user, component: UserPage },
     { path: config.userAdd, component: UserAddPage },
     { path: config.userEdit, component: UserEditPage },

@@ -2,8 +2,24 @@ import axios from 'axios';
 import { CircleCheck } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { ModalContent, ModalActions, Button, Header, Icon, Modal } from 'semantic-ui-react';
-
+import {
+    ModalContent,
+    ModalActions,
+    Button,
+    Header,
+    Icon,
+    Modal,
+    FormField,
+    TextArea,
+    Select,
+} from 'semantic-ui-react';
+const countryOptions = [
+    { key: 'cancelOrder1', value: 'Hết hàng', text: 'Hết hàng' },
+    { key: 'cancelOrder2', value: 'Sai sót thông tin sản phẩm', text: 'Sai sót thông tin sản phẩm' },
+    { key: 'cancelOrder3', value: 'Yêu cầu của khách hàng', text: 'Yêu cầu của khách hàng' },
+    { key: 'cancelOrder4', value: 'Sản phẩm bị hỏng hoặc lỗi', text: 'Sản phẩm bị hỏng hoặc lỗi' },
+    { key: 'cancelOrder5', value: 'cancelOrder5', text: 'Không thể liên lạc với khách hàng' },
+];
 function PaymentDetailPage() {
     useEffect(() => {
         document.title = 'Chi tiết đơn hàng';
@@ -16,7 +32,10 @@ function PaymentDetailPage() {
     const [dataProduct, setDataProduct] = useState([]);
     const [dataFilter, setDataFilter] = useState([]);
     const [isLoading, setIsLoading] = useState(false);
+    const [valueRassonStatus, setValueRassonStatus] = useState();
     const [showNotification, setShowNotification] = useState(false);
+    const [showNotificationCancel, setShowNotificationCancel] = useState(false);
+
     const handleStatusChange = (event) => {
         setOrderStatus(event.target.value);
     };
@@ -33,8 +52,8 @@ function PaymentDetailPage() {
     }, []);
     useEffect(() => {
         if (dataProduct && isLoading) {
-            console.log(dataProduct);
-            console.log(dataDetail);
+            // console.log(dataProduct);
+            // console.log(dataDetail);
             const filterData = dataProduct
                 .filter((data) => dataDetail.products.some((product) => product.productId === data._id))
                 .map((data) => {
@@ -67,6 +86,28 @@ function PaymentDetailPage() {
                 console.error('Error fetching data:', error);
             });
     };
+    const handleChangeCancel = (e, data) => {
+        setValueRassonStatus(data.value);
+    };
+    const handleCancelOrder = () => {
+        console.log(valueRassonStatus);
+        setOpen(false);
+        axios
+            .patch(`http://localhost:5000/payment/${dataDetail._id}`, {
+                orderStatus: 'Hủy đơn',
+                reasonStatus: valueRassonStatus,
+            })
+            .then((response) => {
+                setShowNotificationCancel(true); // Hiển thị thông báo
+                setTimeout(() => {
+                    setShowNotificationCancel(false);
+                    window.history.back(); // Ẩn thông báo sau 5 giây
+                }, 3000);
+            })
+            .catch((error) => {
+                console.error('Error fetching data:', error);
+            });
+    };
     return (
         <div className=" bg-white p-6 rounded-lg ">
             <div className="flex items-center justify-between">
@@ -80,15 +121,21 @@ function PaymentDetailPage() {
                         onOpen={() => setOpen(true)}
                     >
                         <Header icon="archive" content="Bạn có chắc chắn muốn hủy đơn hàng này không?" />
-                        {/* <ModalContent>
-                            <p>Bạn có chắc chắn muốn hủy đơn hàng này không?</p>
-                        </ModalContent> */}
+                        <ModalContent>
+                            <p className="text-xl mb-2">Lý do hủy đơn:</p>
+                            <Select
+                                placeholder="Select your country"
+                                options={countryOptions}
+                                className="w-full"
+                                onChange={handleChangeCancel}
+                            />
+                        </ModalContent>
                         <ModalActions>
                             <Button color="red" onClick={() => setOpen(false)}>
-                                <Icon name="remove" /> No
+                                <Icon name="remove" /> Không
                             </Button>
-                            <Button color="green" onClick={() => setOpen(false)}>
-                                <Icon name="checkmark" /> Yes
+                            <Button color="green" onClick={handleCancelOrder}>
+                                <Icon name="checkmark" /> Có
                             </Button>
                         </ModalActions>
                     </Modal>
@@ -194,7 +241,7 @@ function PaymentDetailPage() {
                     </div>
                     <div className="flex items-center justify-center mt-8">
                         <button
-                            className="bg-blue-500 text-white min-w-[320px] px-12 py-3 text-lg rounded hover:bg-blue-300 focus:outline-none "
+                            className=" bg-blue text-white min-w-[320px] px-12 py-3 text-lg rounded hover:bg-blueHover focus:outline-none "
                             onClick={handleShipOrder}
                             disabled={dataDetail.orderStatus === 'Hủy đơn'}
                         >
@@ -209,6 +256,15 @@ function PaymentDetailPage() {
                     <div className="flex justify-between items-center gap-2 text-lg">
                         <CircleCheck className="text-green-500" />
                         <p>Đơn hàng đã được gửi thành công!</p>
+                    </div>
+                </div>
+            )}
+
+            {showNotificationCancel && (
+                <div className="fixed top-4 right-4 bg-white text-black py-4 px-4 rounded shadow-2xl border-l-2 border-green-500 animate-slide-in-right ">
+                    <div className="flex justify-between items-center gap-2 text-lg">
+                        <CircleCheck className="text-green-500" />
+                        <p>Hủy đơn thành công!</p>
                     </div>
                 </div>
             )}

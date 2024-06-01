@@ -18,6 +18,7 @@ const config = {
     suppliersCategoryEdit: '/suppliersCategoryEdit',
     messenger: '/messenger',
     theOrder: '/theOrder',
+    theOrderDetail: '/theOrderDetail',
     user: '/user',
     userEdit: '/userEdit',
     userAdd: '/userAdd',
