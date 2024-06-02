@@ -25,7 +25,7 @@ function PublishCategoryEdit() {
         console.log(valueDescription);
 
         axios
-            .patch(`http://localhost:5000/categoryPublish/${bookDetail._id}`, {
+            .patch(`https://backend-book-store-two.vercel.app/categoryPublish/${bookDetail._id}`, {
                 name: valueName,
                 description: valueDescription,
             })

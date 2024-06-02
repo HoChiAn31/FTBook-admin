@@ -51,7 +51,7 @@ function UserEditPage() {
     };
     const handleUpdate = () => {
         axios
-            .patch(`http://localhost:5000/user/${dataDetail._id}`, {
+            .patch(`https://backend-book-store-two.vercel.app/user/${dataDetail._id}`, {
                 fullName: valueName,
                 email: valueEmail,
                 phone: valuePhone,

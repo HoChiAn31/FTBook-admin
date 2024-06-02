@@ -37,7 +37,7 @@ function BookEditPage() {
     const [showNotification, setShowNotification] = useState(false);
     const loadDataPublish = () => {
         axios
-            .get('http://localhost:5000/categoryPublish')
+            .get('https://backend-book-store-two.vercel.app/categoryPublish')
             .then((res) => {
                 setDataPublish(res.data);
             })
@@ -47,7 +47,7 @@ function BookEditPage() {
     };
     const loadDataSupplier = () => {
         axios
-            .get('http://localhost:5000/categorySupplier')
+            .get('https://backend-book-store-two.vercel.app/categorySupplier')
             .then((res) => {
                 setDataSupplier(res.data);
             })
@@ -57,7 +57,7 @@ function BookEditPage() {
     };
     const loadCategoryAll = () => {
         axios
-            .get('http://localhost:5000/categoryAll')
+            .get('https://backend-book-store-two.vercel.app/categoryAll')
             .then((res) => {
                 setDataCategoryAll(res.data);
             })
@@ -67,7 +67,7 @@ function BookEditPage() {
     };
     const loadCategoryDetail = () => {
         axios
-            .get('http://localhost:5000/categoryDetail')
+            .get('https://backend-book-store-two.vercel.app/categoryDetail')
             .then((res) => {
                 setDataCatgoryDetail(res.data);
             })
@@ -77,7 +77,7 @@ function BookEditPage() {
     };
     const loadDateYear = () => {
         axios
-            .get('http://localhost:5000/categoryYear')
+            .get('https://backend-book-store-two.vercel.app/categoryYear')
             .then((res) => {
                 setDataYear(res.data);
             })
@@ -189,7 +189,7 @@ function BookEditPage() {
         };
         console.log(updateData);
         axios
-            .patch(`http://localhost:5000/product/${dataDetailBook._id}`, updateData)
+            .patch(`https://backend-book-store-two.vercel.app/product/${dataDetailBook._id}`, updateData)
             .then((response) => {
                 // handle the response
                 console.log('Response:', response.data);

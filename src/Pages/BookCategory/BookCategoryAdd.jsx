@@ -23,7 +23,7 @@ function BookCategoryAddPage() {
     };
     const handleAddBook = () => {
         axios
-            .post('http://localhost:5000/categoryAll', {
+            .post('https://backend-book-store-two.vercel.app/categoryAll', {
                 name: valueName,
                 description: valueDescription,
             })

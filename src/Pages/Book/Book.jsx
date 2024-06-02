@@ -34,7 +34,7 @@ function BookPage() {
 
     useEffect(() => {
         axios
-            .get('http://localhost:5000/product')
+            .get('https://backend-book-store-two.vercel.app/product')
             .then((response) => {
                 setDataBooks(response.data);
                 setIsLoading(true);
@@ -62,7 +62,7 @@ function BookPage() {
 
     const handleDelete = () => {
         axios
-            .delete(`http://localhost:5000/product/${deleteBookId}`)
+            .delete(`https://backend-book-store-two.vercel.app/product/${deleteBookId}`)
             .then((response) => {
                 console.log('Category deleted successfully:', response.data);
                 setOpen(false);
