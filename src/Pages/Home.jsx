@@ -46,10 +46,10 @@ const RevenueChart = ({ data }) => {
     };
 
     return (
-        <div>
+        <>
             <h2 className="text-xl">Phần trăm doanh thu từng tháng</h2>
             <ReactFrappeChart type="pie" data={chartData} height={250} />
-        </div>
+        </>
     );
 };
 const VisitChart = ({ data }) => {
@@ -65,7 +65,8 @@ const VisitChart = ({ data }) => {
     };
 
     return (
-        <div>
+        <>
+            {/* <div> */}
             <h2>Số lượt ghé thăm theo ngày trong tháng 5</h2>
             <ReactFrappeChart
                 type="line"
@@ -74,7 +75,9 @@ const VisitChart = ({ data }) => {
                 lineOptions={{ regionFill: 1 }} // Tùy chọn để tô màu vùng dưới đường
                 className="custom-chart"
             />
-        </div>
+
+            {/* </div> */}
+        </>
     );
 };
 function HomePage() {
@@ -138,9 +141,6 @@ function HomePage() {
                             datasets: [{ values: [18, 40, 30, 35, 8, 52, 17, 4] }],
                         }}
                     />
-                    {/* <button onClick={exportChart} type="button">
-                        Export
-                    </button> */}
                 </div>
                 <div className=" w-1/2  rounded-md bg-white p-4 shadow-md">
                     <RevenueChart data={revenueData} />

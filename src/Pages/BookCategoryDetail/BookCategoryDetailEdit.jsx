@@ -3,6 +3,7 @@ import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { Button, FormField, TextArea, Form } from 'semantic-ui-react';
 import FormFieldComponent from '../../Components/FormFieldComponent';
 import axios from 'axios';
+import { CircleCheck } from 'lucide-react';
 function BookCategoryDetailEditPage() {
     useEffect(() => {
         document.title = 'Chi tiết loại sách';
@@ -15,6 +16,7 @@ function BookCategoryDetailEditPage() {
     const [valueCategoryAll, setValueCategoryAll] = useState(dataDetail.categoryAll_Id);
 
     const [dataCategoryAll, setDataCategoryAll] = useState([]);
+    const [showNotification, setShowNotification] = useState(false);
 
     const navigate = useNavigate();
     const loadCategoryAll = () => {
@@ -54,7 +56,11 @@ function BookCategoryDetailEditPage() {
                 categoryAll_Id: valueCategoryAll,
             })
             .then((response) => {
-                navigate('/bookCategoryDetail');
+                setShowNotification(true);
+                setTimeout(() => {
+                    setShowNotification(false);
+                    navigate('/bookCategoryDetail');
+                }, 800);
             })
             .catch((error) => {
                 console.error('Error posting data:', error);
@@ -101,6 +107,14 @@ function BookCategoryDetailEditPage() {
                     />
                 </Form>
             </div>
+            {showNotification && (
+                <div className="fixed top-4 right-1 z-[100] min-w-56 bg-white text-black py-6 px-4 rounded shadow-2xl border-l-4 border-green animate-slide-in-right">
+                    <div className="flex  items-center gap-2 text-lg">
+                        <CircleCheck style={{ color: '#68FD87' }} />
+                        <p>Cập nhật thành công!</p>
+                    </div>
+                </div>
+            )}
         </div>
     );
 }

@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react';
 import { Button, Dimmer, Form, FormField, FormGroup, Input, Loader, Select, TextArea } from 'semantic-ui-react';
 import FormFieldComponent from '../../Components/FormFieldComponent';
 import axios from 'axios';
+import { CircleCheck } from 'lucide-react';
 
 function BookAddPage() {
     const [dataPublish, setDataPublish] = useState([]);
@@ -344,6 +345,8 @@ function BookAddPage() {
     const [yearOfManufactureError, setYearOfManufactureError] = useState(false);
     const [sizeError, setSizeError] = useState(false);
     const [descriptionError, setDescriptionError] = useState(false);
+    const [showNotification, setShowNotification] = useState(false);
+
     // --------------------------number attributes--------------------------------------
     const handleChangeName = (e) => {
         setValueName(e.target.value);
@@ -546,7 +549,7 @@ function BookAddPage() {
     };
 
     const handleAddProduct = async () => {
-        setIsSuccess(true);
+        // setIsSuccess(true);
 
         try {
             const formData = new FormData();
@@ -576,8 +579,12 @@ function BookAddPage() {
                     'Content-Type': 'multipart/form-data',
                 },
             });
-            setIsSuccess(false);
-            navigate('/Book');
+            // setIsSuccess(false);
+            setShowNotification(true);
+            setTimeout(() => {
+                setShowNotification(false);
+                navigate('/Book');
+            }, 800);
         } catch (error) {
             console.error('Upload failed:', error);
         }
@@ -799,6 +806,14 @@ function BookAddPage() {
                     ) : null}
                 </Form>
             </div>
+            {showNotification && (
+                <div className="fixed top-4 right-1 z-[100] min-w-56 bg-white text-black py-6 px-4 rounded shadow-2xl border-l-4 border-green animate-slide-in-right">
+                    <div className="flex  items-center gap-2 text-lg">
+                        <CircleCheck style={{ color: '#68FD87' }} />
+                        <p>Thêm sách thành công!</p>
+                    </div>
+                </div>
+            )}
         </div>
     );
 }

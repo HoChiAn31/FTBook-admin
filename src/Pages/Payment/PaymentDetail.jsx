@@ -12,6 +12,8 @@ import {
     FormField,
     TextArea,
     Select,
+    Dimmer,
+    Loader,
 } from 'semantic-ui-react';
 const countryOptions = [
     { key: 'cancelOrder1', value: 'Hết hàng', text: 'Hết hàng' },
@@ -19,7 +21,11 @@ const countryOptions = [
     { key: 'cancelOrder3', value: 'Yêu cầu của khách hàng', text: 'Yêu cầu của khách hàng' },
     { key: 'cancelOrder4', value: 'Sản phẩm bị hỏng hoặc lỗi', text: 'Sản phẩm bị hỏng hoặc lỗi' },
     { key: 'cancelOrder5', value: 'cancelOrder5', text: 'Không thể liên lạc với khách hàng' },
-    { key: 'cancelOrder6', value: 'Không nhận được tiền từ khách đã thanh toán', text: 'Quá trình thanh toán của khách bị lỗi phát sinh, cụ thể không nhận được tiền' },
+    {
+        key: 'cancelOrder6',
+        value: 'Không nhận được tiền từ khách đã thanh toán',
+        text: 'Quá trình thanh toán của khách bị lỗi phát sinh, cụ thể không nhận được tiền',
+    },
 ];
 function PaymentDetailPage() {
     useEffect(() => {
@@ -27,6 +33,7 @@ function PaymentDetailPage() {
     }, []);
     const location = useLocation();
     const { dataDetail } = location.state;
+    console.log(dataDetail);
     const navigate = useNavigate();
     const [open, setOpen] = useState(false);
     const [orderStatus, setOrderStatus] = useState(dataDetail.orderStatus);
@@ -186,35 +193,37 @@ function PaymentDetailPage() {
                         </tr>
                     </thead>
                     <tbody>
-                        {isLoading
-                            ? dataFilter.map((product, index) => (
-                                  <tr key={index}>
-                                      <td className="py-2 px-4 border-b flex items-center">
-                                          <img
-                                              src={product.image[0]}
-                                              alt={product.name}
-                                              className="h-32 w-32 object-cover rounded-md mr-4"
-                                          />
-                                          <div>
-                                              <div className="text-gray-900 font-semibold">{product.name}</div>
-                                          </div>
-                                      </td>
-                                      <td className="py-2 px-4 border-b text-center text-gray-900">
-                                          {formatPrice(
-                                              product.priceDiscount ? product.priceDiscount : product.priceSell,
-                                          )}
-                                      </td>
-                                      <td className="py-2 px-4 border-b text-center text-gray-900">
-                                          {product.quantityPayment}
-                                      </td>
-                                      <td className="py-2 px-4 border-b text-center text-green-600">
-                                          {product.priceDiscount
-                                              ? formatPrice(product.priceDiscount * product.quantityPayment)
-                                              : formatPrice(product.priceSell * product.quantityPayment)}
-                                      </td>
-                                  </tr>
-                              ))
-                            : null}
+                        {isLoading ? (
+                            dataFilter.map((product, index) => (
+                                <tr key={index}>
+                                    <td className="py-2 px-4 border-b flex items-center">
+                                        <img
+                                            src={product.image[0]}
+                                            alt={product.name}
+                                            className="h-32 w-32 object-cover rounded-md mr-4"
+                                        />
+                                        <div>
+                                            <div className="text-gray-900 font-semibold">{product.name}</div>
+                                        </div>
+                                    </td>
+                                    <td className="py-2 px-4 border-b text-center text-gray-900">
+                                        {formatPrice(product.priceDiscount ? product.priceDiscount : product.priceSell)}
+                                    </td>
+                                    <td className="py-2 px-4 border-b text-center text-gray-900">
+                                        {product.quantityPayment}
+                                    </td>
+                                    <td className="py-2 px-4 border-b text-center text-green-600">
+                                        {product.priceDiscount
+                                            ? formatPrice(product.priceDiscount * product.quantityPayment)
+                                            : formatPrice(product.priceSell * product.quantityPayment)}
+                                    </td>
+                                </tr>
+                            ))
+                        ) : (
+                            <Dimmer active inverted>
+                                <Loader inverted content="Loading" />
+                            </Dimmer>
+                        )}
                     </tbody>
                 </table>
             </div>
