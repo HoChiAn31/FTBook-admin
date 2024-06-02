@@ -1,11 +1,6 @@
-import { faEye } from '@fortawesome/free-regular-svg-icons';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import { useEffect, useState } from 'react';
-
 import { Link } from 'react-router-dom';
-
-// import Button from '@mui/material/Button';
 import {
     TableRow,
     TableHeaderCell,
@@ -20,74 +15,19 @@ import {
     Header,
     Modal,
     Loader,
+    Input,
 } from 'semantic-ui-react';
+import { faEye } from '@fortawesome/free-regular-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
-const dataBook = [
-    {
-        _id: '662523afd636426682e12ada',
-        name: 'Nghệ Thuật Bán Hàng Bằng Câu Chuyện',
-        categoryAllId: '661949cc343796e299686dc7',
-        categoryDetailId: '66194f95343796e299686ddc',
-        categorySupplierId: '66198823243a328164578cc1',
-        categoryPublishId: '66198b74c9f3ef21a7378d89',
-        categoryYearId: '66198bd0c9f3ef21a7378d94',
-        image: [
-            'https://cdn0.fahasa.com/media/flashmagazine/images/page_images/nghe_thuat_ban_hang_bang_cau_chuyen_tai_ban_2023/2023_03_21_10_28_39_1-390x510.jpg?_gl=1*1wuvo8a*_ga*MjM5MDM3ODcxLjE3MTMzNjIxMzU.*_ga_460L9JMC2G*MTcxMzcwNzM4Mi44LjEuMTcxMzcwNzYwMC42MC4wLjE0MTk5MzY0Mjc.*_gcl_au*MzUxNzI2NTczLjE3MTMzNjIxMzQ.',
-            'https://cdn0.fahasa.com/media/flashmagazine/images/page_images/nghe_thuat_ban_hang_bang_cau_chuyen_tai_ban_2023/2023_03_21_10_28_39_2-390x510.jpg',
-            'https://cdn0.fahasa.com/media/flashmagazine/images/page_images/nghe_thuat_ban_hang_bang_cau_chuyen_tai_ban_2023/2023_03_21_10_28_39_3-390x510.jpg',
-            'https://cdn0.fahasa.com/media/flashmagazine/images/page_images/nghe_thuat_ban_hang_bang_cau_chuyen_tai_ban_2023/2023_03_21_10_28_39_4-390x510.jpg',
-        ],
-        priceOld: 188000,
-        priceCurrent: 146000,
-        author: 'Paul Smith',
-        form: 'Bìa Mềm',
-        language: 'Tiếng Việt',
-        yearOfManufacture: 2023,
-        size: '20.5 x 13 x 1 cm',
-        pageQuantity: 200,
-        description:
-            'Câu chuyện là vũ khí bán hàng quan trọng nhất của người bán hàng. Tuy nhiên rất nhiều nhân viên quản lý kinh doanh và nhân viên bán hàng thường kể chuyện rất dở. Rất dở! Các câu chuyện của họ nhàm chán, lộn xộn, thường vô nghĩa, và hầu hết luôn hướng về bản thân.',
-        rate: 4,
-        ratingPoint: 100,
-        numberOfVisit: 5,
-    },
-    {
-        _id: '662523afd636426682e12ad1',
-        name: 'Nghệ Thuật Bán Hàng Bằng Câu Chuyện2',
-        categoryAllId: '661949cc343796e299686dc7',
-        categoryDetailId: '66194f95343796e299686ddc',
-        categorySupplierId: '66198823243a328164578cc1',
-        categoryPublishId: '66198b74c9f3ef21a7378d89',
-        categoryYearId: '66198bd0c9f3ef21a7378d94',
-        image: [
-            'https://cdn0.fahasa.com/media/flashmagazine/images/page_images/nghe_thuat_ban_hang_bang_cau_chuyen_tai_ban_2023/2023_03_21_10_28_39_1-390x510.jpg?_gl=1*1wuvo8a*_ga*MjM5MDM3ODcxLjE3MTMzNjIxMzU.*_ga_460L9JMC2G*MTcxMzcwNzM4Mi44LjEuMTcxMzcwNzYwMC42MC4wLjE0MTk5MzY0Mjc.*_gcl_au*MzUxNzI2NTczLjE3MTMzNjIxMzQ.',
-            'https://cdn0.fahasa.com/media/flashmagazine/images/page_images/nghe_thuat_ban_hang_bang_cau_chuyen_tai_ban_2023/2023_03_21_10_28_39_2-390x510.jpg',
-            'https://cdn0.fahasa.com/media/flashmagazine/images/page_images/nghe_thuat_ban_hang_bang_cau_chuyen_tai_ban_2023/2023_03_21_10_28_39_3-390x510.jpg',
-            'https://cdn0.fahasa.com/media/flashmagazine/images/page_images/nghe_thuat_ban_hang_bang_cau_chuyen_tai_ban_2023/2023_03_21_10_28_39_4-390x510.jpg',
-        ],
-        priceOld: 198000,
-        priceCurrent: 156000,
-        author: 'Paul Smith',
-        form: 'Bìa Mềm',
-        language: 'Tiếng Việt',
-        yearOfManufacture: 2023,
-        size: '20.5 x 13 x 1 cm',
-        pageQuantity: 200,
-        description:
-            'Câu chuyện là vũ khí bán hàng quan trọng nhất của người bán hàng. Tuy nhiên rất nhiều nhân viên quản lý kinh doanh và nhân viên bán hàng thường kể chuyện rất dở. Rất dở! Các câu chuyện của họ nhàm chán, lộn xộn, thường vô nghĩa, và hầu hết luôn hướng về bản thân.',
-        rate: 4,
-        ratingPoint: 100,
-        numberOfVisit: 5,
-    },
-];
 function BookPage() {
     const [open, setOpen] = useState(false);
-    const handleOpen = () => setOpen(true);
-    // const handleClose = () => setOpen(false);
     const [deleteBookId, setDeleteBookId] = useState();
-    const [dataBooks, setDataBooks] = useState();
+    const [dataBooks, setDataBooks] = useState([]);
     const [isLoading, setIsLoading] = useState(false);
     const [isSuccess, setIsSuccess] = useState(false);
+    const [filterValue, setFilterValue] = useState('');
+    const [filteredData, setFilteredData] = useState([]);
 
     useEffect(() => {
         axios
@@ -99,11 +39,23 @@ function BookPage() {
             .catch((error) => {
                 console.error('Error fetching data:', error);
             });
-    });
+    }, []);
+
+    useEffect(() => {
+        if (dataBooks) {
+            const filteredData = dataBooks.filter((book) =>
+                book.name.toLowerCase().includes(filterValue.toLowerCase()) ||
+                book.author.toLowerCase().includes(filterValue.toLowerCase())
+            );
+            setFilteredData(filteredData);
+        }
+    }, [filterValue, dataBooks]);
+
     const handleOpenDelete = (bookId) => {
         setDeleteBookId(bookId);
         setOpen(true);
     };
+
     const handleDelete = () => {
         axios
             .delete(`http://localhost:5000/product/${deleteBookId}`)
@@ -120,6 +72,7 @@ function BookPage() {
                 console.error('Error deleting category:', error);
             });
     };
+
     return (
         <div className="p-8">
             <div className="flex items-center justify-between">
@@ -128,7 +81,17 @@ function BookPage() {
                     <Button primary>Thêm sách</Button>
                 </Link>
             </div>
-            <div className="my-12">
+
+            <div className="mt-4">
+                <Input
+                    icon="search"
+                    placeholder="Nhập tên sách hoặc tác giả để lọc..."
+                    value={filterValue}
+                    onChange={(e) => setFilterValue(e.target.value)}
+                />
+            </div>
+
+            <div className="my-6">
                 {!isLoading ? (
                     <div className="flex items-center justify-center">
                         <Loader active inline="centered" />
@@ -147,7 +110,7 @@ function BookPage() {
                             </TableHeader>
 
                             <TableBody>
-                                {dataBooks.map((book) => (
+                                {filteredData.map((book) => (
                                     <TableRow key={book._id}>
                                         <TableCell>{book.name}</TableCell>
                                         <TableCell>

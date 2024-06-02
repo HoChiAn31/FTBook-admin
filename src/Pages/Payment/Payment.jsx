@@ -116,6 +116,7 @@ function ThePaymentPage() {
                         >
                             <option value="Tất cả">Tất cả đơn hàng</option>
                             <option value="Đã đặt hàng">Đã đặt hàng</option>
+                            <option value="Đã thanh toán">Đã thanh toán</option>
                             <option value="Đã giao hàng">Đã giao hàng</option>
                             <option value="Giao hàng thành công">Giao hàng thành công</option>
                             <option value="Hủy đơn">Huỷ đơn</option>
@@ -153,6 +154,10 @@ function ThePaymentPage() {
                                                         </div>
                                                     ) : data.orderStatus === 'Đã giao hàng' ? (
                                                         <div className=" bg-[#F7F8FD] text-[#6481E0] py-2 rounded-md font-bold">
+                                                            {data.orderStatus}
+                                                        </div>
+                                                    ) : data.orderStatus === 'Đã thanh toán' ? (
+                                                        <div className=" bg-[#F2F7F4] text-[#9966FF] py-2 rounded-md font-bold">
                                                             {data.orderStatus}
                                                         </div>
                                                     ) : data.orderStatus === 'Giao hàng thành công' ? (
