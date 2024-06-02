@@ -49,7 +49,7 @@ function PaymentDetailPage() {
     };
     useEffect(() => {
         axios
-            .get('http://localhost:5000/product')
+            .get('https://backend-book-store-two.vercel.app/product')
             .then((response) => {
                 setDataProduct(response.data);
                 setIsLoading(true);
@@ -80,7 +80,7 @@ function PaymentDetailPage() {
     }
     const handleShipOrder = () => {
         axios
-            .patch(`http://localhost:5000/payment/${dataDetail._id}`, {
+            .patch(`https://backend-book-store-two.vercel.app/payment/${dataDetail._id}`, {
                 orderStatus: dataDetail.orderStatus === 'Đã giao hàng' ? 'Giao hàng thành công' : 'Đã giao hàng',
             })
             .then((response) => {
@@ -101,7 +101,7 @@ function PaymentDetailPage() {
         console.log(valueRassonStatus);
         setOpen(false);
         axios
-            .patch(`http://localhost:5000/payment/${dataDetail._id}`, {
+            .patch(`https://backend-book-store-two.vercel.app/payment/${dataDetail._id}`, {
                 orderStatus: 'Hủy đơn',
                 reasonStatus: valueRassonStatus,
             })

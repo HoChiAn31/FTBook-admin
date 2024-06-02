@@ -42,7 +42,7 @@ function SuppliersCategoryPage() {
     };
     useEffect(() => {
         axios
-            .get('http://localhost:5000/categorySupplier')
+            .get('https://backend-book-store-two.vercel.app/categorySupplier')
             .then((response) => {
                 setDateSupplier(response.data);
                 setIsLoading(true);
@@ -53,7 +53,7 @@ function SuppliersCategoryPage() {
     }, []);
     const handleDelete = () => {
         axios
-            .delete(`http://localhost:5000/categorySupplier/${deleteSupplierId}`)
+            .delete(`https://backend-book-store-two.vercel.app/categorySupplier/${deleteSupplierId}`)
             .then((response) => {
                 console.log('Category deleted successfully:', response.data);
                 setOpen(false);

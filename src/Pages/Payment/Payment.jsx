@@ -35,7 +35,7 @@ function ThePaymentPage() {
 
     useEffect(() => {
         axios
-            .get('http://localhost:5000/payment')
+            .get('https://backend-book-store-two.vercel.app/payment')
             .then((response) => {
                 setDataCategoryAll(response.data);
                 setIsLoading(true);

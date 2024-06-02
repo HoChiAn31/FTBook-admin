@@ -24,7 +24,7 @@ function BookCategoryEditPage() {
     };
     const handleUpdate = () => {
         axios
-            .patch(`http://localhost:5000/categoryAll/${dataDetail._id}`, {
+            .patch(`https://backend-book-store-two.vercel.app/categoryAll/${dataDetail._id}`, {
                 name: valueName,
                 description: valueDescription,
             })

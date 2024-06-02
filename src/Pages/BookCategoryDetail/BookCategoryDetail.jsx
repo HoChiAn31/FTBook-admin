@@ -43,7 +43,7 @@ function BookCategoryDetailPage() {
 
     useEffect(() => {
         axios
-            .get('http://localhost:5000/categoryDetail')
+            .get('https://backend-book-store-two.vercel.app/categoryDetail')
             .then((response) => {
                 setCategoryDetail(response.data);
                 setIsLoading(true);
@@ -53,7 +53,7 @@ function BookCategoryDetailPage() {
             });
 
         axios
-            .get('http://localhost:5000/categoryAll')
+            .get('https://backend-book-store-two.vercel.app/categoryAll')
             .then((response) => {
                 setDataCategoryAll(response.data);
             })
@@ -69,7 +69,7 @@ function BookCategoryDetailPage() {
 
     const handleDelete = () => {
         axios
-            .delete(`http://localhost:5000/categoryAll/${deleteCategoryId}`)
+            .delete(`https://backend-book-store-two.vercel.app/categoryAll/${deleteCategoryId}`)
             .then((response) => {
                 console.log('Category deleted successfully:', response.data);
                 setOpen(false);

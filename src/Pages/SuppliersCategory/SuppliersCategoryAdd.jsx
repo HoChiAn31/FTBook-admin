@@ -22,7 +22,7 @@ function SuppliersCategoryAddPage() {
     };
     const handleAdd = () => {
         axios
-            .post('http://localhost:5000/categorySupplier', {
+            .post('https://backend-book-store-two.vercel.app/categorySupplier', {
                 name: valueName,
                 description: valueDescription,
             })

@@ -43,7 +43,7 @@ function UserPage() {
 
     useEffect(() => {
         axios
-            .get('http://localhost:5000/user')
+            .get('https://backend-book-store-two.vercel.app/user')
             .then((response) => {
                 const updatedData = response.data.map((user) => ({
                     ...user,
@@ -59,7 +59,7 @@ function UserPage() {
 
     const handleDelete = () => {
         axios
-            .delete(`http://localhost:5000/user/${deleteUserId}`)
+            .delete(`https://backend-book-store-two.vercel.app/user/${deleteUserId}`)
             .then((response) => {
                 console.log('User deleted successfully:', response.data);
                 setOpen(false);

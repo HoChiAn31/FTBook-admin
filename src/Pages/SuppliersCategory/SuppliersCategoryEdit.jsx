@@ -22,7 +22,7 @@ function SuppliersCategoryEditPage() {
     };
     const handleUpdate = () => {
         axios
-            .patch(`http://localhost:5000/categorySupplier/${dataDetail._id}`, {
+            .patch(`https://backend-book-store-two.vercel.app/categorySupplier/${dataDetail._id}`, {
                 name: valueName,
                 description: valueDescription,
             })

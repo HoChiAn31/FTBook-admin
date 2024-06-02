@@ -21,7 +21,7 @@ function BookCategoryDetailEditPage() {
     const navigate = useNavigate();
     const loadCategoryAll = () => {
         axios
-            .get('http://localhost:5000/categoryAll')
+            .get('https://backend-book-store-two.vercel.app/categoryAll')
             .then((res) => {
                 setDataCategoryAll(res.data);
             })
@@ -50,7 +50,7 @@ function BookCategoryDetailEditPage() {
     };
     const handleUpdate = () => {
         axios
-            .patch(`http://localhost:5000/categoryDetail/${dataDetail._id}`, {
+            .patch(`https://backend-book-store-two.vercel.app/categoryDetail/${dataDetail._id}`, {
                 name: valueName,
                 description: valueDescription,
                 categoryAll_Id: valueCategoryAll,

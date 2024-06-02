@@ -41,7 +41,7 @@ function PublishCategoryPage() {
     };
     useEffect(() => {
         axios
-            .get('http://localhost:5000/categoryPublish')
+            .get('https://backend-book-store-two.vercel.app/categoryPublish')
             .then((response) => {
                 setData(response.data);
                 setIsLoading(true);
@@ -52,7 +52,7 @@ function PublishCategoryPage() {
     }, []);
     const handleDelete = () => {
         axios
-            .delete(`http://localhost:5000/categoryPublish/${deleteCategoryId}`)
+            .delete(`https://backend-book-store-two.vercel.app/categoryPublish/${deleteCategoryId}`)
             .then((response) => {
                 console.log('Category deleted successfully:', response.data);
                 setOpen(false);
