@@ -1,7 +1,6 @@
 import { faEye } from '@fortawesome/free-regular-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import axios from 'axios';
-import { Book, BookType, BringToFront, ShoppingCart, User } from 'lucide-react';
 import { useEffect, useState } from 'react';
 // import ReactFrappeChart from 'react-frappe-charts';
 import { Link } from 'react-router-dom';
@@ -30,15 +29,9 @@ function ThePaymentPage() {
 
     const [dataCategoryAll, setDataCategoryAll] = useState([]);
     const [deleteCategoryId, setDeleteCategoryId] = useState();
-    const [isSuccess, setIsSuccess] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
     const [filter, setFilter] = useState('Tất cả');
     const [dataFilter, setDataFilter] = useState([]);
-    const [open, setOpen] = useState(false);
-    const handleOpenDelete = (categoryId) => {
-        setDeleteCategoryId(categoryId);
-        setOpen(true);
-    };
 
     useEffect(() => {
         axios
@@ -51,22 +44,7 @@ function ThePaymentPage() {
                 console.error('Error fetching data:', error);
             });
     }, []);
-    const handleDelete = () => {
-        axios
-            .delete(`http://localhost:5000/categoryAll/${deleteCategoryId}`)
-            .then((response) => {
-                console.log('Category deleted successfully:', response.data);
-                setOpen(false);
-                setIsSuccess(true);
-                setTimeout(() => {
-                    setIsSuccess(false);
-                }, 800);
-                window.location.reload();
-            })
-            .catch((error) => {
-                console.error('Error deleting category:', error);
-            });
-    };
+
     // ====================================================================
     // Số mục trên mỗi trang
     const itemsPerPage = 5;
@@ -190,17 +168,6 @@ function ThePaymentPage() {
                                             </TableCell>
                                         </TableRow>
                                     ))}
-                                    <Modal open={open} onClose={() => setOpen(false)} onOpen={() => setOpen(true)}>
-                                        <Header icon="archive" content="Bạn có chắc chắn muốn xóa sản phẩm không?" />
-                                        <ModalActions>
-                                            <Button color="green" onClick={handleDelete}>
-                                                <Icon name="checkmark" /> Yes
-                                            </Button>
-                                            <Button color="red" onClick={() => setOpen(false)}>
-                                                <Icon name="remove" /> No
-                                            </Button>
-                                        </ModalActions>
-                                    </Modal>
                                 </TableBody>
                             </Table>
                             <div className=" text-center">

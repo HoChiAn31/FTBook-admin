@@ -3,6 +3,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { Button, FormField, TextArea, Form } from 'semantic-ui-react';
 import FormFieldComponent from '../../Components/FormFieldComponent';
 import axios from 'axios';
+import { CircleCheck } from 'lucide-react';
 
 function SuppliersCategoryAddPage() {
     useEffect(() => {
@@ -10,6 +11,8 @@ function SuppliersCategoryAddPage() {
     }, []);
     const [valueName, setValueName] = useState();
     const [valueDescription, setValueDescription] = useState();
+    const [isSuccess, setIsSuccess] = useState(false);
+
     const navigate = useNavigate();
     const handleValueName = (e) => {
         setValueName(e.target.value);
@@ -24,7 +27,11 @@ function SuppliersCategoryAddPage() {
                 description: valueDescription,
             })
             .then((response) => {
-                navigate('/suppliersCategory');
+                setIsSuccess(true);
+                setTimeout(() => {
+                    setIsSuccess(false);
+                    navigate('/suppliersCategory');
+                }, 800);
             })
             .catch((error) => {
                 console.error('Error posting data:', error);
@@ -54,6 +61,16 @@ function SuppliersCategoryAddPage() {
                     />
                 </Form>
             </div>
+            {isSuccess && (
+                <>
+                    <div className="fixed top-4 right-1 z-[100] min-w-56 bg-white text-black py-6 px-4 rounded shadow-2xl border-l-4 border-green animate-slide-in-right">
+                        <div className="flex items-center gap-2 text-lg">
+                            <CircleCheck style={{ color: '#68FD87' }} />
+                            <p>Thêm Nhà cung cấp thành công!</p>
+                        </div>
+                    </div>
+                </>
+            )}
         </div>
     );
 }

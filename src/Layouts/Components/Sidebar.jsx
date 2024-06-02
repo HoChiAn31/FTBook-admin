@@ -43,9 +43,9 @@ function SideBar() {
                     <MenuItem icon={<FontAwesomeIcon icon={faBook} />} component={<Link to="/book" />}>
                         Quản lý Sách
                     </MenuItem>
-                    <MenuItem icon={<FontAwesomeIcon icon={faChartLine} />} component={<Link to="/chart" />}>
+                    {/* <MenuItem icon={<FontAwesomeIcon icon={faChartLine} />} component={<Link to="/chart" />}>
                         Thống kê cửa hàng
-                    </MenuItem>
+                    </MenuItem> */}
                     <MenuItem icon={<FontAwesomeIcon icon={faClipboardList} />} component={<Link to="/theOrder" />}>
                         Đơn đặt hàng
                     </MenuItem>

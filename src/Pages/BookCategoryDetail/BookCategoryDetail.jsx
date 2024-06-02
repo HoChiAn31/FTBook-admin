@@ -15,9 +15,13 @@ import {
     Header,
     Modal,
     Input,
+    Pagination,
+    Dimmer,
+    Loader,
 } from 'semantic-ui-react';
 import { faEye } from '@fortawesome/free-regular-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { CircleCheck } from 'lucide-react';
 
 function BookCategoryDetailPage() {
     useEffect(() => {
@@ -28,7 +32,7 @@ function BookCategoryDetailPage() {
     const [dataCategoryDetail, setCategoryDetail] = useState([]);
     const [deleteCategoryId, setDeleteCategoryId] = useState();
     const [isSuccess, setIsSuccess] = useState(false);
-    const [nameCategory, setNameCategory] = useState();
+    const [isLoading, setIsLoading] = useState(false);
     const [open, setOpen] = useState(false);
     const [filterValue, setFilterValue] = useState('');
 
@@ -42,6 +46,7 @@ function BookCategoryDetailPage() {
             .get('http://localhost:5000/categoryDetail')
             .then((response) => {
                 setCategoryDetail(response.data);
+                setIsLoading(true);
             })
             .catch((error) => {
                 console.error('Error fetching data:', error);
@@ -78,72 +83,115 @@ function BookCategoryDetailPage() {
                 console.error('Error deleting category:', error);
             });
     };
-
     const filteredData = dataCategoryDetail.filter(
         (category) =>
             category.name.toLowerCase().includes(filterValue.toLowerCase()) ||
-            getCategoryNameById(category.categoryAll_Id).toLowerCase().includes(filterValue.toLowerCase())
+            getCategoryNameById(category.categoryAll_Id).toLowerCase().includes(filterValue.toLowerCase()),
     );
+    const itemsPerPage = 10;
+    // Trang hiện tại
+    const [currentPage, setCurrentPage] = useState(1);
+    // Tính toán vị trí bắt đầu và kết thúc của mục trên trang hiện tại
+    const startIndex = (currentPage - 1) * itemsPerPage;
+    const endIndex = Math.min(startIndex + itemsPerPage, filteredData.length);
+
+    // Dữ liệu trên trang hiện tại
+    let currentData = filteredData.length <= itemsPerPage ? filteredData : filteredData.slice(startIndex, endIndex);
+
+    // Tổng số trang
+    const totalPages = Math.ceil(filteredData.length / itemsPerPage);
+
+    // Hàm xử lý khi chuyển trang
+    const handlePaginationChange = (e, { activePage }) => {
+        // Đảm bảo activePage không vượt quá totalPages
+        const newCurrentPage = Math.min(activePage, totalPages);
+        setCurrentPage(newCurrentPage);
+    };
 
     return (
         <div className="p-8">
             <div className="flex items-center justify-between">
                 <h3 className="font-bold text-4xl">Danh mục chi tiết</h3>
-                <Link to="/bookCategoryDetailAdd" className="hover:text-white">
-                    <Button primary>Thêm danh mục sách</Button>
-                </Link>
             </div>
-            <div className="my-4">
+            <div className="my-4 flex items-center justify-between">
                 <Input
                     icon="search"
                     placeholder="Tìm kiếm theo tên hoặc danh mục"
                     value={filterValue}
                     onChange={(e) => setFilterValue(e.target.value)}
+                    className="w-1/2"
                 />
+                <Link to="/bookCategoryDetailAdd" className="hover:text-white">
+                    <Button primary>Thêm danh mục sách</Button>
+                </Link>
             </div>
-            <Table celled>
-                <TableHeader>
-                    <TableRow>
-                        <TableHeaderCell>Tên</TableHeaderCell>
-                        <TableHeaderCell>Danh mục</TableHeaderCell>
-                        <TableHeaderCell textAlign="center">Actions</TableHeaderCell>
-                    </TableRow>
-                </TableHeader>
-                <TableBody>
-                    {filteredData.map((category) => (
-                        <TableRow key={category._id}>
-                            <TableCell>{category.name}</TableCell>
-                            <TableCell>{getCategoryNameById(category.categoryAll_Id)}</TableCell>
-                            <TableCell textAlign="center">
-                                <div className="flex items-center justify-center gap-3">
-                                    <Popup
-                                        position="top center"
-                                        content="Chi tiết"
-                                        trigger={
-                                            <Link to={'/bookCategoryDetailEdit'} state={{ dataDetail: category }}>
-                                                <FontAwesomeIcon icon={faEye} />
-                                            </Link>
-                                        }
-                                    />
-                                    <Popup
-                                        position="top center"
-                                        content="Xóa sản phẩm"
-                                        trigger={
-                                            <Button
-                                                icon
-                                                style={{ background: 'transparent', border: 'none', padding: 0 }}
-                                                onClick={() => handleOpenDelete(category._id)}
-                                            >
-                                                <Icon name="trash" />
-                                            </Button>
-                                        }
-                                    />
-                                </div>
-                            </TableCell>
+            <div>
+                <Table celled>
+                    <TableHeader>
+                        <TableRow>
+                            <TableHeaderCell>Tên</TableHeaderCell>
+                            <TableHeaderCell>Danh mục</TableHeaderCell>
+                            <TableHeaderCell textAlign="center">Actions</TableHeaderCell>
                         </TableRow>
-                    ))}
-                </TableBody>
-            </Table>
+                    </TableHeader>
+                    {isLoading ? (
+                        <TableBody>
+                            {currentData.map((category) => (
+                                <TableRow key={category._id}>
+                                    <TableCell>{category.name}</TableCell>
+                                    <TableCell>{getCategoryNameById(category.categoryAll_Id)}</TableCell>
+                                    <TableCell textAlign="center">
+                                        <div className="flex items-center justify-center gap-3">
+                                            <Popup
+                                                position="top center"
+                                                content="Chi tiết"
+                                                trigger={
+                                                    <Link
+                                                        to={'/bookCategoryDetailEdit'}
+                                                        state={{ dataDetail: category }}
+                                                    >
+                                                        <FontAwesomeIcon icon={faEye} />
+                                                    </Link>
+                                                }
+                                            />
+                                            <Popup
+                                                position="top center"
+                                                content="Xóa sản phẩm"
+                                                trigger={
+                                                    <Button
+                                                        icon
+                                                        style={{
+                                                            background: 'transparent',
+                                                            border: 'none',
+                                                            padding: 0,
+                                                        }}
+                                                        onClick={() => handleOpenDelete(category._id)}
+                                                    >
+                                                        <Icon name="trash" />
+                                                    </Button>
+                                                }
+                                            />
+                                        </div>
+                                    </TableCell>
+                                </TableRow>
+                            ))}
+                        </TableBody>
+                    ) : (
+                        <Dimmer active inverted>
+                            <Loader inverted content="Loading" />
+                        </Dimmer>
+                    )}
+                </Table>
+                <div className=" text-center">
+                    <Pagination
+                        activePage={currentPage}
+                        totalPages={totalPages}
+                        onPageChange={handlePaginationChange}
+                        prevItem={false}
+                        nextItem={false}
+                    />
+                </div>
+            </div>
             <Modal open={open} onClose={() => setOpen(false)} onOpen={() => setOpen(true)}>
                 <Header icon="archive" content="Bạn có chắc chắn muốn xóa sản phẩm không?" />
                 <ModalActions>
@@ -157,9 +205,11 @@ function BookCategoryDetailPage() {
             </Modal>
             {isSuccess && (
                 <>
-                    <div className="fixed top-0 left-0 w-full h-full bg-black opacity-50 z-40"></div>
-                    <div className="fixed text-2xl top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-green-500 text-white px-8 py-4 rounded z-50 animation-fadeInOut ">
-                        <p>Đã xóa thành công</p>
+                    <div className="fixed top-4 right-1 z-[100] min-w-56 bg-white text-black py-6 px-4 rounded shadow-2xl border-l-4 border-green animate-slide-in-right">
+                        <div className="flex items-center gap-2 text-lg">
+                            <CircleCheck style={{ color: '#68FD87' }} />
+                            <p>Xóa thành công!</p>
+                        </div>
                     </div>
                 </>
             )}

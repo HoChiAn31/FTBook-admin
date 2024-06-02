@@ -16,6 +16,7 @@ import {
     Modal,
     Loader,
     Input,
+    Dimmer,
 } from 'semantic-ui-react';
 import { faEye } from '@fortawesome/free-regular-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -105,24 +106,23 @@ function UserPage() {
         <div className="p-8">
             <div className="flex items-center justify-between">
                 <h3 className="font-bold text-4xl">Người dùng</h3>
-                <Link to="/userAdd" className=" hover:text-white">
-                    <Button primary>Thêm người dùng</Button>
-                </Link>
             </div>
-            <div className="my-4">
+            <div className="my-4 flex items-center justify-between">
                 <Input
                     icon="search"
                     placeholder="Tìm kiếm theo tên hoặc email..."
                     value={searchTerm}
                     onChange={(e) => setSearchTerm(e.target.value)}
+                    className="w-1/2"
                 />
+                <Link to="/userAdd" className=" hover:text-white">
+                    <Button primary>Thêm người dùng</Button>
+                </Link>
             </div>
             {!isLoading ? (
-                <div className=" w-full flex items-center justify-center ">
-                    <Loader active inline="centered">
-                        Loading
-                    </Loader>
-                </div>
+                <Dimmer active inverted>
+                    <Loader inverted content="Loading" />
+                </Dimmer>
             ) : (
                 <div className="my-6">
                     <Table celled>

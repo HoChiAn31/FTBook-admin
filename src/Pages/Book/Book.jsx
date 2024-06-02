@@ -16,9 +16,12 @@ import {
     Modal,
     Loader,
     Input,
+    Dimmer,
+    Pagination,
 } from 'semantic-ui-react';
 import { faEye } from '@fortawesome/free-regular-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { CircleCheck } from 'lucide-react';
 
 function BookPage() {
     const [open, setOpen] = useState(false);
@@ -43,9 +46,10 @@ function BookPage() {
 
     useEffect(() => {
         if (dataBooks) {
-            const filteredData = dataBooks.filter((book) =>
-                book.name.toLowerCase().includes(filterValue.toLowerCase()) ||
-                book.author.toLowerCase().includes(filterValue.toLowerCase())
+            const filteredData = dataBooks.filter(
+                (book) =>
+                    book.name.toLowerCase().includes(filterValue.toLowerCase()) ||
+                    book.author.toLowerCase().includes(filterValue.toLowerCase()),
             );
             setFilteredData(filteredData);
         }
@@ -72,36 +76,56 @@ function BookPage() {
                 console.error('Error deleting category:', error);
             });
     };
+    // Số mục trên mỗi trang
+    const itemsPerPage = 5;
+    // Trang hiện tại
+    const [currentPage, setCurrentPage] = useState(1);
+    // Tính toán vị trí bắt đầu và kết thúc của mục trên trang hiện tại
+    const startIndex = (currentPage - 1) * itemsPerPage;
+    const endIndex = Math.min(startIndex + itemsPerPage, filteredData.length);
 
+    // Dữ liệu trên trang hiện tại
+    let currentData = filteredData.length <= itemsPerPage ? filteredData : filteredData.slice(startIndex, endIndex);
+
+    // Tổng số trang
+    const totalPages = Math.ceil(filteredData.length / itemsPerPage);
+
+    // Hàm xử lý khi chuyển trang
+    const handlePaginationChange = (e, { activePage }) => {
+        // Đảm bảo activePage không vượt quá totalPages
+        const newCurrentPage = Math.min(activePage, totalPages);
+        setCurrentPage(newCurrentPage);
+    };
     return (
         <div className="p-8">
             <div className="flex items-center justify-between">
                 <h3 className="font-bold text-4xl">Sách</h3>
-                <Link to="/bookAdd" className=" hover:text-white">
-                    <Button primary>Thêm sách</Button>
-                </Link>
             </div>
 
-            <div className="mt-4">
+            <div className="mt-4 flex justify-between items-center">
                 <Input
                     icon="search"
                     placeholder="Nhập tên sách hoặc tác giả để lọc..."
                     value={filterValue}
                     onChange={(e) => setFilterValue(e.target.value)}
+                    className="w-1/3"
                 />
+                <Link to="/bookAdd" className=" hover:text-white">
+                    <Button primary>Thêm sách</Button>
+                </Link>
             </div>
 
             <div className="my-6">
                 {!isLoading ? (
-                    <div className="flex items-center justify-center">
-                        <Loader active inline="centered" />
-                    </div>
+                    <Dimmer active inverted>
+                        <Loader inverted content="Loading" />
+                    </Dimmer>
                 ) : (
-                    <>
+                    <div>
                         <Table celled>
                             <TableHeader>
                                 <TableRow>
-                                    <TableHeaderCell>Tên</TableHeaderCell>
+                                    <TableHeaderCell className="px-4">Tên</TableHeaderCell>
                                     <TableHeaderCell>Giá hiện tại</TableHeaderCell>
                                     <TableHeaderCell textAlign="center">Tác giả</TableHeaderCell>
                                     <TableHeaderCell>Mô tả</TableHeaderCell>
@@ -110,14 +134,16 @@ function BookPage() {
                             </TableHeader>
 
                             <TableBody>
-                                {filteredData.map((book) => (
+                                {currentData.map((book) => (
                                     <TableRow key={book._id}>
-                                        <TableCell>{book.name}</TableCell>
+                                        <TableCell className=" py-1 px-4" width={3}>
+                                            {book.name}
+                                        </TableCell>
                                         <TableCell>
                                             {book.priceDiscount ? book.priceDiscount : book.priceSell}
                                         </TableCell>
                                         <TableCell textAlign="center">{book.author}</TableCell>
-                                        <TableCell>{book.description}</TableCell>
+                                        <TableCell className=" line-clamp-3 py-1">{book.description}</TableCell>
                                         <TableCell textAlign="center">
                                             <div className="flex items-center justify-between">
                                                 <Popup
@@ -164,14 +190,25 @@ function BookPage() {
                                 </Modal>
                             </TableBody>
                         </Table>
-                    </>
+                        <div className=" text-center">
+                            <Pagination
+                                activePage={currentPage}
+                                totalPages={totalPages}
+                                onPageChange={handlePaginationChange}
+                                prevItem={false}
+                                nextItem={false}
+                            />
+                        </div>
+                    </div>
                 )}
             </div>
             {isSuccess && (
                 <>
-                    <div className="fixed top-0 left-0 w-full h-full bg-black opacity-50 z-40"></div>
-                    <div className="fixed text-2xl top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-green-500 text-white px-8 py-4 rounded z-50 animation-fadeInOut ">
-                        <p>Đã xóa thành công</p>
+                    <div className="fixed top-4 right-1 z-[100] min-w-56 bg-white text-black py-6 px-4 rounded shadow-2xl border-l-4 border-green animate-slide-in-right">
+                        <div className="flex  items-center gap-2 text-lg">
+                            <CircleCheck style={{ color: '#68FD87' }} />
+                            <p>Xóa thành công!</p>
+                        </div>
                     </div>
                 </>
             )}
