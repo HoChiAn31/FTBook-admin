@@ -19,6 +19,7 @@ const countryOptions = [
     { key: 'cancelOrder3', value: 'Yêu cầu của khách hàng', text: 'Yêu cầu của khách hàng' },
     { key: 'cancelOrder4', value: 'Sản phẩm bị hỏng hoặc lỗi', text: 'Sản phẩm bị hỏng hoặc lỗi' },
     { key: 'cancelOrder5', value: 'cancelOrder5', text: 'Không thể liên lạc với khách hàng' },
+    { key: 'cancelOrder6', value: 'Không nhận được tiền từ khách đã thanh toán', text: 'Quá trình thanh toán của khách bị lỗi phát sinh, cụ thể không nhận được tiền' },
 ];
 function PaymentDetailPage() {
     useEffect(() => {
@@ -112,7 +113,7 @@ function PaymentDetailPage() {
         <div className=" bg-white p-6 rounded-lg ">
             <div className="flex items-center justify-between">
                 <h2 className="text-3xl font-bold mb-6 text-gray-800">Chi tiết đơn hàng</h2>
-                {dataDetail.orderStatus === 'Đã đặt hàng' && (
+                {(dataDetail.orderStatus === 'Đã đặt hàng' || dataDetail.orderStatus === 'Đã thanh toán') && (
                     <Modal
                         closeIcon
                         open={open}
