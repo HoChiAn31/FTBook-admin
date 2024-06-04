@@ -197,7 +197,7 @@ function BookEditPage() {
                 setTimeout(() => {
                     setShowNotification(false); // Hide the notification
                     window.history.back(); // Navigate back to the previous page
-                }, 3000);
+                }, 800);
             })
             .catch((error) => {
                 // handle any errors
