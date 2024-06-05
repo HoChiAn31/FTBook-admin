@@ -2,6 +2,7 @@ import { faEye } from '@fortawesome/free-regular-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import axios from 'axios';
 import { useEffect, useState } from 'react';
+import { parseISO, format } from 'date-fns';
 // import ReactFrappeChart from 'react-frappe-charts';
 import { Link } from 'react-router-dom';
 import {
@@ -27,7 +28,7 @@ function ThePaymentPage() {
         document.title = 'Loại sách';
     }, []);
 
-    const [dataCategoryAll, setDataCategoryAll] = useState([]);
+    const [dataPayment, setDataPayment] = useState([]);
     const [deleteCategoryId, setDeleteCategoryId] = useState();
     const [isLoading, setIsLoading] = useState(false);
     const [filter, setFilter] = useState('Tất cả');
@@ -37,7 +38,9 @@ function ThePaymentPage() {
         axios
             .get('https://backend-book-store-two.vercel.app/payment')
             .then((response) => {
-                setDataCategoryAll(response.data);
+                // Sort the data by createdAt in descending order
+                const sortedData = response.data.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+                setDataPayment(sortedData);
                 setIsLoading(true);
             })
             .catch((error) => {
@@ -52,14 +55,13 @@ function ThePaymentPage() {
     const [currentPage, setCurrentPage] = useState(1);
     // Tính toán vị trí bắt đầu và kết thúc của mục trên trang hiện tại
     const startIndex = (currentPage - 1) * itemsPerPage;
-    const endIndex = Math.min(startIndex + itemsPerPage, dataCategoryAll.length);
+    const endIndex = Math.min(startIndex + itemsPerPage, dataPayment.length);
 
     // Dữ liệu trên trang hiện tại
-    let currentData =
-        dataCategoryAll.length <= itemsPerPage ? dataCategoryAll : dataCategoryAll.slice(startIndex, endIndex);
+    let currentData = dataPayment.length <= itemsPerPage ? dataPayment : dataPayment.slice(startIndex, endIndex);
 
     // Tổng số trang
-    const totalPages = Math.ceil(dataCategoryAll.length / itemsPerPage);
+    const totalPages = Math.ceil(dataPayment.length / itemsPerPage);
 
     // Hàm xử lý khi chuyển trang
     const handlePaginationChange = (e, { activePage }) => {
@@ -67,18 +69,26 @@ function ThePaymentPage() {
         const newCurrentPage = Math.min(activePage, totalPages);
         setCurrentPage(newCurrentPage);
     };
+
     useEffect(() => {
         if (filter) {
-            let filterData = dataCategoryAll.filter((data) => data.orderStatus === filter);
+            let filterData = dataPayment.filter((data) => data.orderStatus === filter);
             if (filterData.length === 0) {
                 setDataFilter([]);
+            } else {
+                setDataFilter(filterData);
             }
-            setDataFilter(filterData);
         }
-    }, [filter]);
+    }, [filter, dataPayment]);
+
     function formatPrice(price) {
         return price.toLocaleString('de-DE') + 'đ';
     }
+    function formatDate(data) {
+        const date = parseISO(data);
+        return format(date, 'dd/MM/yyyy HH:mm:ss');
+    }
+
     return (
         <div className=" px-5 ">
             <div>
@@ -109,6 +119,7 @@ function ThePaymentPage() {
                                         <TableHeaderCell>Mã đơn hàng</TableHeaderCell>
                                         <TableHeaderCell>Tên</TableHeaderCell>
                                         <TableHeaderCell>Địa chỉ</TableHeaderCell>
+                                        <TableHeaderCell textAlign="center">Ngày đặt hàng</TableHeaderCell>
                                         <TableHeaderCell textAlign="center">Tổng tiền</TableHeaderCell>
 
                                         <TableHeaderCell textAlign="center">Mô tả</TableHeaderCell>
@@ -122,6 +133,8 @@ function ThePaymentPage() {
                                             <TableCell>{data._id}</TableCell>
                                             <TableCell>{data.name}</TableCell>
                                             <TableCell>{data.address}</TableCell>
+                                            <TableCell textAlign="center">{formatDate(data.createdAt)}</TableCell>
+
                                             <TableCell textAlign="center">{formatPrice(data.totalPrice)}</TableCell>
 
                                             <TableCell textAlign="center">

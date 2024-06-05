@@ -21,6 +21,7 @@
         "axios": "^1.6.8",
         "babel-plugin-module-resolver": "^5.0.2",
         "customize-cra": "^1.0.0",
+        "date-fns": "^3.6.0",
         "frappe-charts": "^1.6.2",
         "lucide-react": "^0.381.0",
         "moment": "^2.30.1",

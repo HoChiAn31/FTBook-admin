@@ -1,3 +1,4 @@
+import { green } from '@mui/material/colors';
 import axios from 'axios';
 import { CircleCheck } from 'lucide-react';
 import { useEffect, useState } from 'react';
@@ -60,8 +61,6 @@ function PaymentDetailPage() {
     }, []);
     useEffect(() => {
         if (dataProduct && isLoading) {
-            // console.log(dataProduct);
-            // console.log(dataDetail);
             const filterData = dataProduct
                 .filter((data) => dataDetail.products.some((product) => product.productId === data._id))
                 .map((data) => {
@@ -87,8 +86,8 @@ function PaymentDetailPage() {
                 setShowNotification(true); // Hiển thị thông báo
                 setTimeout(() => {
                     setShowNotification(false); // Ẩn thông báo sau 5 giây
-                }, 5000);
-                navigate('/chart');
+                    navigate('/theOrder');
+                }, 800);
             })
             .catch((error) => {
                 console.error('Error fetching data:', error);
@@ -109,8 +108,8 @@ function PaymentDetailPage() {
                 setShowNotificationCancel(true); // Hiển thị thông báo
                 setTimeout(() => {
                     setShowNotificationCancel(false);
-                    window.history.back(); // Ẩn thông báo sau 5 giây
-                }, 3000);
+                    window.location.href = '/theOrder'; // Ẩn thông báo sau 5 giây
+                }, 800);
             })
             .catch((error) => {
                 console.error('Error fetching data:', error);
@@ -264,7 +263,7 @@ function PaymentDetailPage() {
             {showNotification && (
                 <div className="fixed top-4 right-4 bg-white text-black py-4 px-4 rounded shadow-2xl border-l-2 border-green-500 animate-slide-in-right ">
                     <div className="flex justify-between items-center gap-2 text-lg">
-                        <CircleCheck className="text-green-500" />
+                        <CircleCheck style={{ color: '#68FD87' }} />
                         <p>Đơn hàng đã được gửi thành công!</p>
                     </div>
                 </div>
@@ -273,7 +272,7 @@ function PaymentDetailPage() {
             {showNotificationCancel && (
                 <div className="fixed top-4 right-4 bg-white text-black py-4 px-4 rounded shadow-2xl border-l-2 border-green-500 animate-slide-in-right ">
                     <div className="flex justify-between items-center gap-2 text-lg">
-                        <CircleCheck className="text-green-500" />
+                        <CircleCheck style={{ color: '#68FD87' }} />
                         <p>Hủy đơn thành công!</p>
                     </div>
                 </div>
