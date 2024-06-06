@@ -323,8 +323,6 @@ function BookAddPage() {
     };
 
     const handleAddProduct = async () => {
-        // setIsSuccess(true);
-
         try {
             const formData = new FormData();
             console.log('valueImage', valueImage);
@@ -348,15 +346,11 @@ function BookAddPage() {
             formData.append('size', valueSize);
             formData.append('quantityPage', valueQuantityPage);
             formData.append('description', valueDescription);
-            const response = await axios.post(
-                'https://backend-book-store-two.vercel.app/product/add-product',
-                formData,
-                {
-                    headers: {
-                        'Content-Type': 'multipart/form-data',
-                    },
+            const response = await axios.post('https://backend-book-store-two.vercel.app/add-product', formData, {
+                headers: {
+                    'Content-Type': 'multipart/form-data',
                 },
-            );
+            });
             // setIsSuccess(false);
             setShowNotification(true);
             setTimeout(() => {
