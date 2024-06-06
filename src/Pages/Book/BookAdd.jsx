@@ -323,6 +323,7 @@ function BookAddPage() {
     };
 
     const handleAddProduct = async () => {
+        console.log(1);
         try {
             const formData = new FormData();
             console.log('valueImage', valueImage);
@@ -346,7 +347,7 @@ function BookAddPage() {
             formData.append('size', valueSize);
             formData.append('quantityPage', valueQuantityPage);
             formData.append('description', valueDescription);
-            const response = await axios.post('https://backend-book-store-two.vercel.app/add-product', formData, {
+            await axios.post('https://backend-book-store-two.vercel.app/product/add-product', formData, {
                 headers: {
                     'Content-Type': 'multipart/form-data',
                 },
