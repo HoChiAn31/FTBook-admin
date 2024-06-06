@@ -16,6 +16,7 @@ function BookEditPage() {
     const { dataDetailBook } = location.state;
     console.log(dataDetailBook._id);
     // --------------------------value declaration--------------------------------------
+    const [valueImage, setValueImage] = useState(dataDetailBook.image);
     const [valueName, setValueName] = useState(dataDetailBook.name);
     const [valueAuthor, setValueAuthor] = useState(dataDetailBook.author);
     const [valueQuantity, setValueQuantity] = useState(dataDetailBook.quantity);
@@ -217,7 +218,15 @@ function BookEditPage() {
                     </Link>
                 </div>
             </div>
-            <div className="mb-5 py-16">
+            <div className="pt-16">
+                <p className=" text-base font-bold">Hình ảnh:</p>
+                <div className="grid grid-cols-5 py-5">
+                    {valueImage.slice(0, 5).map((src) => (
+                        <img src={src} alt="" className="h-48 w-40" />
+                    ))}
+                </div>
+            </div>
+            <div className="mb-5 py-8">
                 <Form size="large">
                     {/* ----------------------- */}
                     <FormFieldComponent

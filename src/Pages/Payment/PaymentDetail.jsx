@@ -16,6 +16,7 @@ import {
     Dimmer,
     Loader,
 } from 'semantic-ui-react';
+import { useTheme } from '../../Layouts/Components/themeProvider';
 const countryOptions = [
     { key: 'cancelOrder1', value: 'Hết hàng', text: 'Hết hàng' },
     { key: 'cancelOrder2', value: 'Sai sót thông tin sản phẩm', text: 'Sai sót thông tin sản phẩm' },
@@ -29,6 +30,7 @@ const countryOptions = [
     },
 ];
 function PaymentDetailPage() {
+    const { isReload, setiIsReload } = useTheme();
     useEffect(() => {
         document.title = 'Chi tiết đơn hàng';
     }, []);
@@ -86,6 +88,7 @@ function PaymentDetailPage() {
                 setShowNotification(true); // Hiển thị thông báo
                 setTimeout(() => {
                     setShowNotification(false); // Ẩn thông báo sau 5 giây
+                    setiIsReload(isReload + 1);
                     navigate('/theOrder');
                 }, 800);
             })
